@@ -32,6 +32,9 @@ public class MainActivity extends AppCompatActivity {
     Button right;
     Button left;
     Button off;
+    Button tuta;
+    Button lightsOnBT;
+    Button lightsOffBT;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,23 +49,26 @@ public class MainActivity extends AppCompatActivity {
         right = (Button) findViewById(R.id.BTright);
         left = (Button) findViewById(R.id.BTleft);
         off = (Button) findViewById(R.id.BTstop);
+        tuta = (Button) findViewById(R.id.tuta);
+        lightsOnBT = (Button) findViewById(R.id.lightsOn);
+        lightsOffBT = (Button) findViewById(R.id.lightsOff);
 
         if (!bluetooth.isBluetoothAvailable()) {
-            Toast.makeText(getApplicationContext(), "Bluetooth is not available", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Bluetooth är inte tillgängligt", Toast.LENGTH_SHORT).show();
             finish();
         }
 
         bluetooth.setBluetoothConnectionListener(new BluetoothSPP.BluetoothConnectionListener() {
             public void onDeviceConnected(String name, String address) {
-                connect.setText("Connected to " + name);
+                connect.setText("Ansluten till " + name);
             }
 
             public void onDeviceDisconnected() {
-                connect.setText("Connection lost");
+                connect.setText("Inte ansluten");
             }
 
             public void onDeviceConnectionFailed() {
-                connect.setText("Unable to connect");
+                connect.setText("Kan inte ansluta");
             }
         });
 
@@ -117,6 +123,27 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 bluetooth.send(bakåt, true);
+            }
+        });
+
+        tuta.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bluetooth.send(tut, true);
+            }
+        });
+
+        lightsOnBT.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bluetooth.send(lightsOn, true);
+            }
+        });
+
+        lightsOffBT.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bluetooth.send(lightsOff, true);
             }
         });
 
